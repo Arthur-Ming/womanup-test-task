@@ -1,0 +1,12 @@
+@import "/src/index.scss";
+.main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.box {
+  padding: 20px 40px;
+  width: 600px;
+  background-color: $bg-primary-dark;
+  border-radius: 10px;
+}
