@@ -16,7 +16,8 @@ import { v4 } from "uuid";
 
 dayjs.extend(localizedFormat);
 
-const filesUrl = "gs://store-b1a8b.appspot.com/files";
+const filesUrl =
+  "https://firebasestorage.googleapis.com/v0/b/store-b1a8b.appspot.com/o/files";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAtJW10sBdbadLreAWzrVkNAxqxLDv9TJM",
@@ -29,6 +30,7 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 const storage = getStorage();
 
 dayjs("2018-08-08"); // parse
@@ -39,30 +41,44 @@ export const uploadFile = async (file) => {
   const mountainImagesRef = ref(storage, `${filesUrl}/${v4()}`);
   const snapshot = await uploadBytes(mountainImagesRef, file);
   const fileUrl = await getDownloadURL(snapshot.ref);
-  // imageUrl.split("%")[1]
-  console.log(fileUrl);
   return fileUrl;
 };
 
-export const getFile = (path) => {
-  return `${filesUrl}/${path}`;
+export const getFile = (path) => `${filesUrl}%${path}`;
+
+export const addTask = async (task, newTaskRef) => {
+  const docRef = await setDoc(newTaskRef, task);
+  /*  const docRef = await addDoc(collection(db, "todos"), task);
+  return docRef; */
 };
 
-async function getCities(db) {
-  await addDoc(collection(db, "todos"), {
-    title: "Losbb Angeles",
-    description: "CAbfb",
-    deadline: 515151151,
-    isDone: false,
-    createdAt: Timestamp.fromDate(new Date()),
-  });
+export const getNewTaskRef = () => {
+  return doc(collection(db, "todos"));
+};
 
+export const getTodos = async () => {
   const todoCol = collection(db, "todos");
   const citySnapshot = await getDocs(todoCol);
-  const cityList = citySnapshot.docs.map((doc) => ({
+  return citySnapshot.docs.map((doc) => ({
     ...doc.data(),
     id: doc.id,
   }));
+};
 
-  return cityList;
+/* {
+  title: "Losbb Angeles",
+  description: "CAbfb",
+  deadline: 515151151,
+  isDone: false,
+  createdAt: Timestamp.fromDate(new Date()),
+  files: ["vvr"],
 }
+ */
+/* const todoCol = collection(db, "todos");
+const citySnapshot = await getDocs(todoCol);
+const cityList = citySnapshot.docs.map((doc) => ({
+  ...doc.data(),
+  id: doc.id,
+}));
+
+return cityList; */

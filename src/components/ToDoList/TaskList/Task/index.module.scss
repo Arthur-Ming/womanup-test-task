@@ -1,0 +1,44 @@
+@import "/src/index.scss";
+
+.item {
+  padding: 20px 20px;
+  width: 600px;
+  background-color: $bg-primary-dark;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
+}
+.text_box {
+  padding: 0px 10px;
+  margin: 0px;
+  font-weight: 400;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease 0s;
+  &:hover {
+    background-color: $bg-primary-light;
+    color: $text-primary-light;
+  }
+}
+.title {
+  @extend .text_box;
+  font-size: 18px;
+  line-height: 38px;
+  height: 40px;
+}
+
+.description {
+  @extend .text_box;
+  font-size: 16px;
+  line-height: 28px;
+  height: 56px;
+  background-color: $bg-primary-light;
+}
+.deadline {
+  @extend .text_box;
+  font-size: 16px;
+  line-height: 28px;
+  display: flex;
+  column-gap: 10px;
+}

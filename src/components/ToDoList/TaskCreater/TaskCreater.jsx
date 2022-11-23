@@ -1,73 +1,72 @@
-import { useForm, Controller } from "react-hook-form";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+import { useForm } from "react-hook-form";
+import InputText from "../../Forms/InputText";
+import Textarea from "../../Forms/Textarea";
+import ImageUploader from "../../Forms/ImageUploader";
+import InputDate from "../../Forms/InputDate";
 import styles from "./index.module.scss";
-import classNames from "classnames";
-import { uploadFile } from "../../../utils/api";
+import useImageUploader from "../../../hooks/useImageUploader";
+import { useEffect } from "react";
 
-const TaskCreater = () => {
+const TaskCreater = ({ createTask }) => {
   const {
     register,
     control,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm({ mode: "onBlur" });
-
+  const { image, onFileInput, resetImage, onDeleteFile } = useImageUploader();
   const onSubmit = (data) => {
-    console.log(data);
-    /*  const { file } = data;
-       if (file.length) {
-      uploadFile(file[0]);
-    } */
+    /*     createTask({
+        ...data
+    })  */
+    console.log({
+      ...data,
+      imageURL: image.url,
+    });
   };
+  useEffect(() => {
+    console.log(image);
+  }, [image]);
+
   return (
-    <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
-      <label className={styles.label}>
-        <span>Title</span>
-        <input
-          className={classNames(styles.input, {
-            [styles.invalid]: errors.title,
-          })}
-          type="text"
-          {...register("title", {
-            required: "this field is required!",
-          })}
-        />
-        {errors.title && (
-          <span className={styles.invalid_text}>{errors.title.message}</span>
-        )}
-      </label>
-      <label className={styles.label}>
-        <span>Description</span>
-        <textarea className={styles.textarea} {...register("description")} />
-      </label>
-      <Controller
-        control={control}
-        name="deadline"
-        defaultValue={null}
-        render={({ field }) => (
-          <label className={styles.label}>
-            <span>Deadline</span>
-            <DatePicker
-              className={styles.input}
-              onChange={(e) => field.onChange(e)}
-              selected={field.value}
-              minDate={new Date()}
-              showTimeSelect
-              timeFormat="HH:mm"
-              timeIntervals={30}
-              timeCaption="time"
-              placeholderText="Click to select a date"
-              dateFormat="MMMM d, yyyy h:mm aa"
-            />
-          </label>
-        )}
+    <form className={styles.form}>
+      <InputText
+        name="title"
+        label="Title"
+        register={register}
+        error={errors.title}
+        required="this field is required!"
       />
-      <label className={styles.label}>
-        <span>Select file</span>
-        <input type="file" {...register("file")} />
-      </label>
-      <input type="submit" className={styles.button} value="Add" />
+      <Textarea name="description" label="Description" register={register} />
+      <InputDate name="deadline" label="Deadline" control={control} />
+      <ImageUploader
+        name="files"
+        label="Select file"
+        register={register}
+        onFileInput={onFileInput}
+        onDeleteFile={onDeleteFile}
+        image={image}
+      />
+      <div className={styles.buttons}>
+        <input
+          type="button"
+          value="reset"
+          onClick={() => {
+            resetImage();
+            reset();
+          }}
+          disabled={image.loading}
+          className={styles.button}
+        />
+        <input
+          type="submit"
+          onClick={handleSubmit(onSubmit)}
+          className={styles.button}
+          value="Add task"
+          disabled={image.loading}
+        />
+      </div>
     </form>
   );
 };

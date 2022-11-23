@@ -48,3 +48,9 @@ li {
 main {
   flex: 1 1 100%;
 }
+section {
+  padding: 20px 40px;
+  width: 600px;
+  background-color: $bg-primary-dark;
+  border-radius: 10px;
+}

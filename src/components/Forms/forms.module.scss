@@ -1,12 +1,5 @@
 @import "/src/index.scss";
 
-.form {
-  display: flex;
-  flex-direction: column;
-  row-gap: 15px;
-  align-items: center;
-}
-
 .label {
   width: 100%;
   display: flex;
@@ -18,7 +11,7 @@
 .input {
   width: 100%;
   box-sizing: border-box;
-  padding: 8px 16px;
+  padding: 6px 16px;
   border-radius: 8px;
   border: 1px solid $text-primary-light;
   background-color: $bg-primary-dark;
@@ -61,12 +54,6 @@
   &::placeholder {
     opacity: 0.5;
   }
-}
-.buttons {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  column-gap: 10px;
 }
 
 .button {
