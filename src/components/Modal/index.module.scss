@@ -1,0 +1,13 @@
+@import "/src/index.scss";
+
+.wrapper {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  overflow-y: auto;
+  background: rgba(177, 165, 165, 0.3);
+  transition: all 0.3s ease 0s;
+  z-index: 999;
+}

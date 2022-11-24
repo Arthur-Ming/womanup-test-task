@@ -39,7 +39,13 @@ function reducer(state, action) {
   }
 }
 
-const useImageUploader = () => {
+const useImageUploader = (
+  initialState = {
+    loading: false,
+    error: null,
+    url: "",
+  }
+) => {
   const [image, dispatch] = useReducer(reducer, initialState);
   return {
     image,

@@ -2,6 +2,7 @@ import {
   getFirestore,
   collection,
   getDocs,
+  getDoc,
   doc,
   setDoc,
   Timestamp,
@@ -9,12 +10,8 @@ import {
   deleteDoc,
 } from "firebase/firestore";
 import { initializeApp } from "firebase/app";
-import dayjs from "dayjs";
-import localizedFormat from "dayjs/plugin/localizedFormat";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { v4 } from "uuid";
-
-dayjs.extend(localizedFormat);
 
 const filesUrl =
   "https://firebasestorage.googleapis.com/v0/b/store-b1a8b.appspot.com/o/files";
@@ -32,10 +29,6 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const storage = getStorage();
-
-dayjs("2018-08-08"); // parse
-
-dayjs.extend(localizedFormat);
 
 export const uploadFile = async (file) => {
   const mountainImagesRef = ref(storage, `${filesUrl}/${v4()}`);
@@ -65,20 +58,12 @@ export const getTodos = async () => {
   }));
 };
 
-/* {
-  title: "Losbb Angeles",
-  description: "CAbfb",
-  deadline: 515151151,
-  isDone: false,
-  createdAt: Timestamp.fromDate(new Date()),
-  files: ["vvr"],
-}
- */
-/* const todoCol = collection(db, "todos");
-const citySnapshot = await getDocs(todoCol);
-const cityList = citySnapshot.docs.map((doc) => ({
-  ...doc.data(),
-  id: doc.id,
-}));
-
-return cityList; */
+export const getTaskById = async (taskId) => {
+  console.log(taskId);
+  const todoCol = doc(db, "todos", taskId);
+  const citySnapshot = await getDoc(todoCol);
+  return {
+    ...citySnapshot.data(),
+    id: taskId,
+  };
+};

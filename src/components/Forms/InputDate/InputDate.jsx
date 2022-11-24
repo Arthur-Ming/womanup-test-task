@@ -3,12 +3,18 @@ import DatePicker from "react-datepicker";
 import styles from "../forms.module.scss";
 import "react-datepicker/dist/react-datepicker.css";
 
-const InputDate = ({ name, label, control, timeIntervals = 30 }) => {
+const InputDate = ({
+  name,
+  label = "",
+  control,
+  timeIntervals = 30,
+  defaultValue = null,
+}) => {
   return (
     <Controller
       control={control}
       name={name}
-      defaultValue={null}
+      defaultValue={defaultValue}
       render={({ field }) => (
         <label className={styles.label}>
           <span>{label}</span>

@@ -1,13 +1,10 @@
 @import "/src/index.scss";
 
 .item {
-  padding: 20px 20px;
-  width: 600px;
-  background-color: $bg-primary-dark;
-  border-radius: 10px;
   display: flex;
   flex-direction: column;
-  row-gap: 10px;
+  align-items: center;
+  row-gap: 15px;
 }
 .text_box {
   padding: 0px 10px;
@@ -16,6 +13,7 @@
   border-radius: 5px;
   cursor: pointer;
   transition: all 0.3s ease 0s;
+  width: 100%;
   &:hover {
     background-color: $bg-primary-light;
     color: $text-primary-light;
@@ -24,21 +22,76 @@
 .title {
   @extend .text_box;
   font-size: 18px;
-  line-height: 38px;
-  height: 40px;
+  line-height: 39px;
 }
 
 .description {
   @extend .text_box;
   font-size: 16px;
   line-height: 28px;
-  height: 56px;
+  height: 85px;
   background-color: $bg-primary-light;
 }
 .deadline {
   @extend .text_box;
   font-size: 16px;
-  line-height: 28px;
+  line-height: 34px;
   display: flex;
+  height: 39px;
   column-gap: 10px;
+}
+.buttons {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  column-gap: 10px;
+}
+.button {
+  box-sizing: border-box;
+  width: 120px;
+  border-radius: 6px;
+  height: 100%;
+  background-color: $main-color;
+  border: 1px solid $text-secondary-dark;
+  color: $text-primary-light;
+  cursor: pointer;
+  overflow: hidden;
+  font-size: 16px;
+  line-height: 20px;
+  padding: 5px 0px;
+  margin-top: 20px;
+  transition: all 0.3s ease 0s;
+  outline: none;
+  &:hover {
+    border-color: $main-color;
+    color: $text-primary-light;
+  }
+  &:disabled {
+    opacity: 0.5;
+    cursor: default;
+  }
+}
+
+.image_link {
+  display: block;
+  background-size: cover;
+  background-position: center;
+  border: 2px solid #b8c5e2;
+  border-radius: 8px;
+  transition: 0.2s border-color;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 256px;
+  height: 114px;
+  overflow: hidden;
+  color: $text-primary-light;
+}
+.image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }

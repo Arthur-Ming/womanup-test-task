@@ -1,0 +1,29 @@
+@import "/src/index.scss";
+
+.box {
+  padding: 20px 60px 20px 40px;
+  position: absolute;
+  left: 50%;
+  top: 60px;
+  transform: translateX(-50%);
+  width: 600px;
+  min-height: 400px;
+  background-color: $bg-primary-dark;
+  border-radius: 10px;
+  z-index: 999;
+  opacity: 1;
+}
+
+.close_icon {
+  position: absolute;
+  left: calc(100% - 40px);
+  padding: 3px;
+  top: 15px;
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  transition: color 0.3s ease 0s;
+  &:hover {
+    color: $text-primary-light;
+  }
+}

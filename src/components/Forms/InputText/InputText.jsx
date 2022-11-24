@@ -3,10 +3,10 @@ import styles from "../forms.module.scss";
 
 const InputText = ({
   name,
-  label,
   register,
   error,
   required,
+  label = "",
   defaultValue = "",
 }) => (
   <label className={styles.label}>

@@ -6,3 +6,61 @@
   flex-direction: column;
   row-gap: 20px;
 }
+.label {
+  width: 600px;
+  background-color: $bg-primary-dark;
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  overflow: hidden;
+}
+//$bg-primary-light
+.link {
+  padding: 10px 20px;
+  background-color: $bg-primary-dark;
+  flex: 1 0 auto;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  row-gap: 3px;
+  transition: all 0.3s ease 0s;
+  &:hover {
+    background-color: $bg-primary-light;
+    color: $text-primary-light;
+  }
+}
+.title {
+  padding: 0px 0px;
+  margin: 0px;
+  font-weight: 400;
+  border-radius: 5px;
+  font-size: 20px;
+  line-height: 24px;
+}
+.deadline {
+  padding: 0px 0px;
+  margin: 0px;
+  font-weight: 300;
+  border-radius: 5px;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.remove_box {
+  padding: 0px 10px;
+}
+
+.remove_icon {
+  width: 20px;
+  height: 20px;
+  padding: 5px;
+  cursor: pointer;
+  &:hover {
+    color: $text-primary-light;
+  }
+}
+
+.ch_box {
+  padding: 0px 10px 5px;
+}

@@ -1,17 +1,14 @@
-import { useState } from "react";
 import styles from "../index.module.scss";
 import InputText from "../../../../Forms/InputText";
-import { useForm } from "react-hook-form";
 
-const TaskTitle = ({ title, isEditMode, setEditMode, register, errors }) => {
+const TaskTitle = ({ title, isEditMode, register, error }) => {
   if (isEditMode)
     return (
       <InputText
         name="title"
         defaultValue={title}
-        label=""
         register={register}
-        error={errors.title}
+        error={error}
         required="this field is required!"
       />
     );
