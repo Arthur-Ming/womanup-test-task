@@ -1,5 +1,5 @@
-import { useReducer } from "react";
-import { uploadFile } from "../../utils/api";
+import { useCallback, useReducer } from "react";
+import { deleteImage, uploadFile } from "../../utils/api";
 import { LOAD_FILE, REQUEST, SUCCESS, FAILURE, RESET } from "../actions-types";
 
 const initialState = {
@@ -28,6 +28,11 @@ function reducer(state, action) {
         loading: false,
         error: action.error,
       };
+    case "SET_IMAGE":
+      return {
+        ...state,
+        url: action.imageURL,
+      };
     case RESET:
       return {
         loading: false,
@@ -39,14 +44,13 @@ function reducer(state, action) {
   }
 }
 
-const useImageUploader = (
-  initialState = {
+const useImageUploader = (imageURL = "") => {
+  const [image, dispatch] = useReducer(reducer, {
     loading: false,
     error: null,
-    url: "",
-  }
-) => {
-  const [image, dispatch] = useReducer(reducer, initialState);
+    url: imageURL,
+  });
+  console.log(image.url);
   return {
     image,
     onFileInput: async (e) => {
@@ -57,8 +61,8 @@ const useImageUploader = (
         dispatch({ type: LOAD_FILE + SUCCESS, url: url.split("%")[1] });
       }
     },
-    resetImage: () => dispatch({ type: RESET }),
     onDeleteFile: () => {
+      image.url && deleteImage(image.url);
       dispatch({ type: RESET });
     },
   };

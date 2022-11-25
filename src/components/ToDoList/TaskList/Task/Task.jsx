@@ -3,13 +3,11 @@ import { useForm } from "react-hook-form";
 import TaskTitle from "./TaskTitle";
 import TaskDescription from "./TaskDescription";
 import TaskDeadline from "./TaskDeadline";
-import Loader from "../../../Loader";
-import useTask from "../../../../hooks/useTask";
 import { useState } from "react";
-import TaskImage from "./TaskImage/TaskImage";
+import TaskImage from "./TaskImage";
+import useImageUploader from "../../../../hooks/useImageUploader";
 
-const Task = ({ taskId }) => {
-  const { task, loading } = useTask(taskId);
+const Task = ({ task, updateTask }) => {
   const [isEditMode, setEditMode] = useState(false);
   const {
     register,
@@ -18,17 +16,27 @@ const Task = ({ taskId }) => {
     formState: { errors },
     reset,
   } = useForm({ mode: "onBlur" });
-  if (loading) return <Loader />;
+
+  const imageURL = (task && task.files && task.files[0]) || "";
+
+  const { image, onFileInput, onDeleteFile } = useImageUploader(imageURL);
 
   const editModeSwitch = (e) => {
     e.preventDefault();
     setEditMode((prevMode) => !prevMode);
   };
 
-  const { title, description, deadline, files } = task;
-  console.log(task);
-  console.log(files);
-  const [imageURL = ""] = files;
+  const onSubmit = (data) => {
+    updateTask({
+      ...data,
+      id: task.id,
+      files: image.url ? [image.url] : [],
+    });
+    setEditMode(false);
+  };
+  if (!task) return <div>task not found</div>;
+
+  const { title, description, deadline } = task;
 
   return (
     <form className={styles.item}>
@@ -51,19 +59,25 @@ const Task = ({ taskId }) => {
       <TaskImage
         register={register}
         isEditMode={isEditMode}
-        imageURL={imageURL}
+        image={image}
+        onFileInput={onFileInput}
+        onDeleteFile={onDeleteFile}
       />
       <div className={styles.buttons}>
-        <button className={styles.button} onClick={editModeSwitch}>
+        <button
+          className={styles.button}
+          onClick={editModeSwitch}
+          disabled={image.loading}
+        >
           {isEditMode ? "Cancel" : "Edit"}
         </button>
 
         <input
           type="submit"
-          /*  onClick={handleSubmit(onSubmit)} */
+          onClick={handleSubmit(onSubmit)}
           className={styles.button}
           value="Submit"
-          disabled={!isEditMode}
+          disabled={!isEditMode || image.loading}
         />
       </div>
     </form>

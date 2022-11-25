@@ -7,10 +7,17 @@ import {
   setDoc,
   Timestamp,
   addDoc,
+  updateDoc,
   deleteDoc,
 } from "firebase/firestore";
 import { initializeApp } from "firebase/app";
-import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import {
+  getStorage,
+  ref,
+  uploadBytes,
+  getDownloadURL,
+  deleteObject,
+} from "firebase/storage";
 import { v4 } from "uuid";
 
 const filesUrl =
@@ -39,11 +46,7 @@ export const uploadFile = async (file) => {
 
 export const getFile = (path) => `${filesUrl}%${path}`;
 
-export const addTask = async (task, newTaskRef) => {
-  const docRef = await setDoc(newTaskRef, task);
-  /*  const docRef = await addDoc(collection(db, "todos"), task);
-  return docRef; */
-};
+export const addTask = (task, newTaskRef) => setDoc(newTaskRef, task);
 
 export const getNewTaskRef = () => {
   return doc(collection(db, "todos"));
@@ -60,10 +63,34 @@ export const getTodos = async () => {
 
 export const getTaskById = async (taskId) => {
   console.log(taskId);
+
   const todoCol = doc(db, "todos", taskId);
   const citySnapshot = await getDoc(todoCol);
+  if (!citySnapshot.data()) {
+    throw new Error("task not found!");
+  }
   return {
     ...citySnapshot.data(),
     id: taskId,
   };
+};
+
+export const updateTask = async (task) => {
+  /* return new Promise((res, rej) => {
+    setTimeout(() => {
+      rej("!!");
+    }, 2000);
+  }); */
+  const washingtonRef = doc(db, "todos", task.id);
+  await updateDoc(washingtonRef, task);
+};
+
+export const deleteImage = async (imageURL) => {
+  const mountainImagesRef = ref(storage, `${filesUrl}%${imageURL}`);
+  await deleteObject(mountainImagesRef);
+};
+
+export const deleteTaskById = async (taskId) => {
+  const todoCol = doc(db, "todos", taskId);
+  await deleteDoc(todoCol);
 };

@@ -1,7 +1,25 @@
-import { uploadFile, addTask, getTodos, getNewTaskRef } from "../../utils/api";
+import {
+  uploadFile,
+  addTask,
+  getTodos,
+  getNewTaskRef,
+  deleteTaskById,
+  updateTask,
+  deleteImage,
+} from "../../utils/api";
 import { Timestamp } from "firebase/firestore";
-import { useEffect, useReducer } from "react";
-import { LOAD_TODOS, REQUEST, SUCCESS, FAILURE } from "../actions-types";
+import { useCallback, useEffect, useReducer } from "react";
+import {
+  LOAD_TODOS,
+  ADD_TODO,
+  DELETE_TODO,
+  UPDATE_TODO,
+  REQUEST,
+  SUCCESS,
+  FAILURE,
+} from "../actions-types";
+import { toast } from "react-toastify";
+import { async } from "@firebase/util";
 
 const initialState = {
   loading: false,
@@ -28,15 +46,32 @@ function reducer(state, action) {
         ...state,
         loading: false,
       };
+    case ADD_TODO:
+      return {
+        ...state,
+        entities: [...state.entities, action.data],
+      };
+    case UPDATE_TODO:
+      return {
+        ...state,
+        entities: state.entities.map((todo) => {
+          return todo.id === action.updatedTask.id ? action.updatedTask : todo;
+        }),
+      };
+    case DELETE_TODO:
+      return {
+        ...state,
+        entities: state.entities.filter((todo) => todo.id !== action.taskId),
+      };
     default:
       throw new Error();
   }
 }
-const getNewTask = (data, files) => ({
+const getNewTask = (data, newTaskId) => ({
   ...data,
-  deadline: Number(new Date(data.deadline)) / 1000,
+  id: newTaskId,
   createdAt: Timestamp.fromDate(new Date()),
-  files,
+  isDone: false,
 });
 
 const useTodo = () => {
@@ -59,14 +94,62 @@ const useTodo = () => {
   return {
     state,
     createTask: async (data) => {
-      const files = [];
-      if (data.imageURL) {
-        files.push(data.imageURL);
+      const newTaskRef = getNewTaskRef();
+      const newTask = getNewTask(data, newTaskRef.id);
+      dispatch({
+        type: ADD_TODO,
+        data: newTask,
+      });
+      try {
+        await addTask(newTask, newTaskRef);
+        toast.success("task created successfully!");
+      } catch (error) {
+        toast.error("failed to create task (:");
+        dispatch({
+          type: DELETE_TODO,
+          taskId: newTaskRef.id,
+        });
       }
-      // const newTaskRef = getNewTaskRef();
-      const newTask = getNewTask(data, files);
-      console.log(newTask);
-      // await addTask(newTask, newTaskRef);
+    },
+    updateTask: async (task) => {
+      const oldTask = state.entities.find((item) => item.id === task.id);
+      if (oldTask) {
+        dispatch({
+          type: UPDATE_TODO,
+          updatedTask: {
+            ...oldTask,
+            ...task,
+          },
+        });
+        try {
+          await updateTask(task);
+          toast.success("task updated successfully!");
+        } catch (error) {
+          console.log(error);
+          toast.error("failed to update task (:");
+          dispatch({
+            type: UPDATE_TODO,
+            updatedTask: oldTask,
+          });
+        }
+      }
+    },
+    deleteTask: async (taskId) => {
+      const task = state.entities.find(({ id }) => id === taskId);
+      if (!task) return;
+      const [imageURL] = task.files;
+      dispatch({
+        type: DELETE_TODO,
+        taskId,
+      });
+
+      try {
+        await deleteTaskById(taskId);
+        imageURL && deleteImage(imageURL);
+        toast.success("task deleted successfully!");
+      } catch (error) {
+        toast.error("failed to delete task (:");
+      }
     },
   };
 };

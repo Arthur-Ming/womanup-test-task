@@ -1,0 +1,50 @@
+@import "/src/index.scss";
+
+.box {
+  padding: 20px 40px 40px;
+  position: absolute;
+  left: 50%;
+  top: 80px;
+  transform: translateX(-50%);
+  width: 400px;
+  background-color: $bg-primary-dark;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 20px;
+  align-items: center;
+  z-index: 999;
+  opacity: 1;
+}
+.buttons {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  column-gap: 20px;
+}
+
+.button {
+  box-sizing: border-box;
+  width: 120px;
+  border-radius: 6px;
+  height: 100%;
+  background-color: $main-color;
+  border: 1px solid $text-secondary-dark;
+  color: $text-primary-light;
+  cursor: pointer;
+  overflow: hidden;
+  font-size: 16px;
+  line-height: 20px;
+  padding: 5px 0px;
+  margin-top: 20px;
+  transition: all 0.3s ease 0s;
+  outline: none;
+  &:hover {
+    border-color: $main-color;
+    color: $text-primary-light;
+  }
+  &:disabled {
+    opacity: 0.5;
+    cursor: default;
+  }
+}

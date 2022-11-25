@@ -7,9 +7,11 @@ import useTodo from "../../hooks/useToDo";
 import { useState } from "react";
 
 const ToDoList = () => {
-  const { createTask, state } = useTodo();
+  const { createTask, deleteTask, updateTask, state } = useTodo();
   const [isCreateTaskMode, setsCreateTaskMode] = useState(false);
-  const [seletedTaskId, setSeletedTaskId] = useState(null);
+  const [selectedTaskId, setSelectedTaskId] = useState(null);
+  const selectedTask =
+    selectedTaskId && state.entities.find(({ id }) => id === selectedTaskId);
 
   return (
     <main className={styles.main}>
@@ -26,12 +28,14 @@ const ToDoList = () => {
         <TaskList
           tasks={state.entities}
           tasksLoading={state.loading}
-          setSeletedTaskId={setSeletedTaskId}
+          setSeletedTaskId={setSelectedTaskId}
+          deleteTask={deleteTask}
+          updateTask={updateTask}
         />
       </div>
-      {seletedTaskId && (
-        <TaskWrapper onCloseClick={() => setSeletedTaskId(null)}>
-          <Task taskId={seletedTaskId} />
+      {selectedTaskId && selectedTask && (
+        <TaskWrapper onCloseClick={() => setSelectedTaskId(null)}>
+          <Task task={selectedTask} updateTask={updateTask} />
         </TaskWrapper>
       )}
     </main>

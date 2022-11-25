@@ -20,7 +20,7 @@ const InputDate = ({
           <span>{label}</span>
           <DatePicker
             className={styles.input}
-            onChange={(e) => field.onChange(e)}
+            onChange={(e) => field.onChange(Number(e))}
             selected={field.value}
             minDate={new Date()}
             showTimeSelect

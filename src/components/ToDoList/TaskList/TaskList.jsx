@@ -4,7 +4,13 @@ import styles from "./index.module.scss";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
-const TaskList = ({ tasks, tasksLoading, setSeletedTaskId }) => {
+const TaskList = ({
+  tasks,
+  tasksLoading,
+  setSeletedTaskId,
+  deleteTask,
+  updateTask,
+}) => {
   if (tasksLoading) return <Loader />;
   console.log(tasks);
   return (
@@ -17,6 +23,8 @@ const TaskList = ({ tasks, tasksLoading, setSeletedTaskId }) => {
           id={id}
           setSeletedTaskId={setSeletedTaskId}
           isDone={isDone}
+          deleteTask={deleteTask}
+          updateTask={updateTask}
         />
       ))}
     </ul>

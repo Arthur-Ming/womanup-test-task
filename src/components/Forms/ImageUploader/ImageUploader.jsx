@@ -9,7 +9,6 @@ const ImageUploader = ({
   onFileInput,
   onDeleteFile,
 }) => {
-  console.log(getFile(image.url));
   return (
     <label
       className={styles.file_preview}

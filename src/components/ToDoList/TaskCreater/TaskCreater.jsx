@@ -15,15 +15,13 @@ const TaskCreater = ({ createTask }) => {
     formState: { errors },
     reset,
   } = useForm({ mode: "onBlur" });
-  const { image, onFileInput, resetImage, onDeleteFile } = useImageUploader();
+  const { image, onFileInput, onDeleteFile } = useImageUploader();
   const onSubmit = (data) => {
-    /*     createTask({
-        ...data
-    })  */
-    console.log({
+    createTask({
       ...data,
-      imageURL: image.url,
+      files: image.url ? [image.url] : [],
     });
+    reset();
   };
   useEffect(() => {
     console.log(image);
@@ -53,7 +51,7 @@ const TaskCreater = ({ createTask }) => {
           type="button"
           value="reset"
           onClick={() => {
-            resetImage();
+            onDeleteFile();
             reset();
           }}
           disabled={image.loading}
