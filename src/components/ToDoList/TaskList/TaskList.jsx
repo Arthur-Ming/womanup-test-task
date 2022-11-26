@@ -1,8 +1,8 @@
 import Loader from "../../Loader";
+import PropTypes from "prop-types";
 import TaskLabel from "./TaskLabel";
+import { TaskType } from "../../../types";
 import styles from "./index.module.scss";
-import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
 
 const TaskList = ({
   tasks,
@@ -12,7 +12,6 @@ const TaskList = ({
   updateTask,
 }) => {
   if (tasksLoading) return <Loader />;
-  console.log(tasks);
   return (
     <ul className={styles.list}>
       {tasks.map(({ id, title, deadline, isDone }) => (
@@ -29,6 +28,14 @@ const TaskList = ({
       ))}
     </ul>
   );
+};
+
+TaskList.propTypes = {
+  tasks: PropTypes.arrayOf(TaskType.isRequired).isRequired,
+  tasksLoading: PropTypes.bool.isRequired,
+  setSeletedTaskId: PropTypes.func.isRequired,
+  deleteTask: PropTypes.func.isRequired,
+  updateTask: PropTypes.func.isRequired,
 };
 
 export default TaskList;

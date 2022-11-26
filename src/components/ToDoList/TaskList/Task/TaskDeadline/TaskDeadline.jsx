@@ -1,6 +1,7 @@
 import styles from "../index.module.scss";
 import formatDate from "../../../../../utils/formatDate";
 import InputDate from "../../../../Forms/InputDate";
+import PropTypes from "prop-types";
 
 const TaskDeadline = ({ deadline, isEditMode, control }) => {
   if (isEditMode)
@@ -14,4 +15,11 @@ const TaskDeadline = ({ deadline, isEditMode, control }) => {
     </p>
   );
 };
+
+TaskDeadline.propTypes = {
+  deadline: PropTypes.number,
+  isEditMode: PropTypes.bool.isRequired,
+  control: PropTypes.object.isRequired,
+};
+
 export default TaskDeadline;

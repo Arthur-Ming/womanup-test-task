@@ -5,6 +5,8 @@ import TaskDescription from "./TaskDescription";
 import TaskDeadline from "./TaskDeadline";
 import { useState } from "react";
 import TaskImage from "./TaskImage";
+import PropTypes from "prop-types";
+import { TaskType } from "../../../../types";
 import useImageUploader from "../../../../hooks/useImageUploader";
 
 const Task = ({ task, updateTask }) => {
@@ -71,7 +73,6 @@ const Task = ({ task, updateTask }) => {
         >
           {isEditMode ? "Cancel" : "Edit"}
         </button>
-
         <input
           type="submit"
           onClick={handleSubmit(onSubmit)}
@@ -82,6 +83,11 @@ const Task = ({ task, updateTask }) => {
       </div>
     </form>
   );
+};
+
+Task.propTypes = {
+  task: TaskType.isRequired,
+  updateTask: PropTypes.func.isRequired,
 };
 
 export default Task;

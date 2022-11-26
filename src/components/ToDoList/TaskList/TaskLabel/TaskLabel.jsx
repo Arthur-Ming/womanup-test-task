@@ -1,12 +1,12 @@
 import { AiFillDelete as RemoveIcon } from "react-icons/ai";
 import { HiOutlineEye as EyeIcon } from "react-icons/hi";
+import PropTypes from "prop-types";
 import Checkbox from "../../../Forms/Checkbox";
 import ConfirmPopup from "../../../ConfirmPopup";
 import formatDate from "../../../../utils/formatDate";
 import styles from "./index.module.scss";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
-formatDate();
 const TaskLabel = ({
   title,
   deadline,
@@ -55,6 +55,16 @@ const TaskLabel = ({
       )}
     </li>
   );
+};
+
+TaskLabel.propTypes = {
+  title: PropTypes.string.isRequired,
+  deadline: PropTypes.number,
+  id: PropTypes.string.isRequired,
+  isDone: PropTypes.bool.isRequired,
+  setSeletedTaskId: PropTypes.func.isRequired,
+  deleteTask: PropTypes.func.isRequired,
+  updateTask: PropTypes.func.isRequired,
 };
 
 export default TaskLabel;

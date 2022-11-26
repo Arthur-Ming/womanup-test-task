@@ -5,7 +5,7 @@ import ImageUploader from "../../Forms/ImageUploader";
 import InputDate from "../../Forms/InputDate";
 import styles from "./index.module.scss";
 import useImageUploader from "../../../hooks/useImageUploader";
-import { useEffect } from "react";
+import PropTypes from "prop-types";
 
 const TaskCreater = ({ createTask }) => {
   const {
@@ -23,9 +23,6 @@ const TaskCreater = ({ createTask }) => {
     });
     reset();
   };
-  useEffect(() => {
-    console.log(image);
-  }, [image]);
 
   return (
     <form className={styles.form}>
@@ -67,6 +64,10 @@ const TaskCreater = ({ createTask }) => {
       </div>
     </form>
   );
+};
+
+TaskCreater.propTypes = {
+  createTask: PropTypes.func.isRequired,
 };
 
 export default TaskCreater;

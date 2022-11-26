@@ -2,6 +2,7 @@ import styles from "./index.module.scss";
 import cn from "classnames";
 import { useRef } from "react";
 import ModalRoot from "./ModalRoot";
+import PropTypes from "prop-types";
 
 const Modal = ({ children, onClickOutside }) => {
   const modalWrapperRef = useRef(null);
@@ -23,6 +24,11 @@ const Modal = ({ children, onClickOutside }) => {
       </div>
     </ModalRoot>
   );
+};
+
+Modal.propTypes = {
+  onClickOutside: PropTypes.func,
+  children: PropTypes.element.isRequired,
 };
 
 export default Modal;

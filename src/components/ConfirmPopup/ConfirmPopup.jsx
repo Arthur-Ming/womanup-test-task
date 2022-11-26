@@ -1,5 +1,6 @@
 import Modal from "../Modal";
 import styles from "./index.module.scss";
+import PropTypes from "prop-types";
 
 const ConfirmPopup = ({ message, onDidConfirm, onDidNotConfirm }) => (
   <Modal>
@@ -16,5 +17,11 @@ const ConfirmPopup = ({ message, onDidConfirm, onDidNotConfirm }) => (
     </div>
   </Modal>
 );
+
+ConfirmPopup.propTypes = {
+  message: PropTypes.string.isRequired,
+  onDidConfirm: PropTypes.func.isRequired,
+  onDidNotConfirm: PropTypes.func.isRequired,
+};
 
 export default ConfirmPopup;

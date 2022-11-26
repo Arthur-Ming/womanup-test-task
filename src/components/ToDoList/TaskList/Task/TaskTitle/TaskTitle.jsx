@@ -1,5 +1,6 @@
 import styles from "../index.module.scss";
 import InputText from "../../../../Forms/InputText";
+import PropTypes from "prop-types";
 
 const TaskTitle = ({ title, isEditMode, register, error }) => {
   if (isEditMode)
@@ -14,6 +15,13 @@ const TaskTitle = ({ title, isEditMode, register, error }) => {
     );
 
   return <h4 className={styles.title}>{title}</h4>;
+};
+
+TaskTitle.propTypes = {
+  title: PropTypes.string.isRequired,
+  isEditMode: PropTypes.bool.isRequired,
+  register: PropTypes.func.isRequired,
+  error: PropTypes.object,
 };
 
 export default TaskTitle;

@@ -1,5 +1,6 @@
 import styles from "../forms.module.scss";
 import { getFile } from "../../../utils/api";
+import PropTypes from "prop-types";
 
 const ImageUploader = ({
   name,
@@ -33,6 +34,23 @@ const ImageUploader = ({
       />
     </label>
   );
+};
+
+ImageUploader.defaultProps = {
+  label: "",
+};
+
+ImageUploader.propTypes = {
+  name: PropTypes.string.isRequired,
+  label: PropTypes.string,
+  register: PropTypes.func.isRequired,
+  image: PropTypes.shape({
+    loading: PropTypes.bool.isRequired,
+    error: PropTypes.object,
+    url: PropTypes.string.isRequired,
+  }),
+  onFileInput: PropTypes.func.isRequired,
+  onDeleteFile: PropTypes.func.isRequired,
 };
 
 export default ImageUploader;

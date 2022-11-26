@@ -1,7 +1,7 @@
-import useImageUploader from "../../../../../hooks/useImageUploader";
 import styles from "../index.module.scss";
 import ImageUploader from "../../../../Forms/ImageUploader";
 import { getFile } from "../../../../../utils/api";
+import PropTypes from "prop-types";
 
 const TaskImage = ({
   isEditMode,
@@ -22,7 +22,7 @@ const TaskImage = ({
       />
     );
   }
-  console.log(image);
+
   return (
     <a
       href={image.url && getFile(image.url)}
@@ -35,15 +35,23 @@ const TaskImage = ({
       rel="noreferrer"
     >
       {image.url && (
-        <img
-          className={styles.image}
-          src={image.url && getFile(image.url)}
-          alt=""
-        />
+        <img className={styles.image} src={getFile(image.url)} alt="" />
       )}
       {!image.url && <span>No image</span>}
     </a>
   );
+};
+
+TaskImage.propTypes = {
+  isEditMode: PropTypes.bool.isRequired,
+  register: PropTypes.func.isRequired,
+  onFileInput: PropTypes.func.isRequired,
+  onDeleteFile: PropTypes.func.isRequired,
+  image: PropTypes.shape({
+    loading: PropTypes.bool.isRequired,
+    error: PropTypes.object,
+    url: PropTypes.string.isRequired,
+  }),
 };
 
 export default TaskImage;
