@@ -1,8 +1,8 @@
-import styles from "./index.module.scss";
-import cn from "classnames";
-import { useRef } from "react";
-import ModalRoot from "./ModalRoot";
-import PropTypes from "prop-types";
+import styles from './index.module.scss';
+import cn from 'classnames';
+import { useRef } from 'react';
+import ModalRoot from './ModalRoot';
+import PropTypes from 'prop-types';
 
 const Modal = ({ children, onClickOutside }) => {
   const modalWrapperRef = useRef(null);
@@ -15,11 +15,7 @@ const Modal = ({ children, onClickOutside }) => {
 
   return (
     <ModalRoot>
-      <div
-        className={cn(styles.wrapper)}
-        ref={modalWrapperRef}
-        onClick={handleClick}
-      >
+      <div className={cn(styles.wrapper)} ref={modalWrapperRef} onClick={handleClick}>
         {children}
       </div>
     </ModalRoot>

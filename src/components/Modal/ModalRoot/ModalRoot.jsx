@@ -1,7 +1,7 @@
-import { createPortal } from "react-dom";
-import PropTypes from "prop-types";
+import { createPortal } from 'react-dom';
+import PropTypes from 'prop-types';
 
-const modalRoot = document.getElementById("modal-root");
+const modalRoot = document.getElementById('modal-root');
 
 const ModalRoot = ({ children }) => {
   if (!modalRoot) return <div>No modal root</div>;

@@ -1,11 +1,11 @@
-import { useForm } from "react-hook-form";
-import InputText from "../../Forms/InputText";
-import Textarea from "../../Forms/Textarea";
-import ImageUploader from "../../Forms/ImageUploader";
-import InputDate from "../../Forms/InputDate";
-import styles from "./index.module.scss";
-import useImageUploader from "../../../hooks/useImageUploader";
-import PropTypes from "prop-types";
+import { useForm } from 'react-hook-form';
+import InputText from '../../Forms/InputText';
+import Textarea from '../../Forms/Textarea';
+import ImageUploader from '../../Forms/ImageUploader';
+import InputDate from '../../Forms/InputDate';
+import styles from './index.module.scss';
+import useImageUploader from '../../../hooks/useImageUploader';
+import PropTypes from 'prop-types';
 
 const TaskCreater = ({ createTask }) => {
   const {
@@ -14,12 +14,12 @@ const TaskCreater = ({ createTask }) => {
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm({ mode: "onBlur" });
+  } = useForm({ mode: 'onBlur' });
   const { image, onFileInput, onDeleteFile } = useImageUploader();
   const onSubmit = (data) => {
     createTask({
       ...data,
-      files: image.url ? [image.url] : [],
+      files: image.id ? [image.id] : [],
     });
     reset();
   };

@@ -1,29 +1,22 @@
-import styles from "../forms.module.scss";
-import { getFile } from "../../../utils/api";
-import PropTypes from "prop-types";
+import styles from '../forms.module.scss';
+import { getImageURL } from '../../../utils/api';
+import PropTypes from 'prop-types';
 
-const ImageUploader = ({
-  name,
-  label,
-  register,
-  image,
-  onFileInput,
-  onDeleteFile,
-}) => {
+const ImageUploader = ({ name, label, register, image, onFileInput, onDeleteFile }) => {
   return (
     <label
       className={styles.file_preview}
-      style={{ backgroundImage: `url(${image.url && getFile(image.url)})` }}
+      style={{ backgroundImage: `url(${image.id && getImageURL(image.id)})` }}
       onClick={(e) => {
-        if (image.url) {
+        if (image.id) {
           e.preventDefault();
           onDeleteFile();
         }
       }}
     >
-      {!image.loading && !image.url && <span>{label}</span>}
+      {!image.loading && !image.id && <span>{label}</span>}
       {image.loading && <span>Loaging...</span>}
-      {image.url && <span>Delete image</span>}
+      {image.id && <span>Delete image</span>}
       <input
         className={styles.file_input}
         type="file"
@@ -37,7 +30,7 @@ const ImageUploader = ({
 };
 
 ImageUploader.defaultProps = {
-  label: "",
+  label: '',
 };
 
 ImageUploader.propTypes = {
@@ -47,7 +40,7 @@ ImageUploader.propTypes = {
   image: PropTypes.shape({
     loading: PropTypes.bool.isRequired,
     error: PropTypes.object,
-    url: PropTypes.string.isRequired,
+    id: PropTypes.string.isRequired,
   }),
   onFileInput: PropTypes.func.isRequired,
   onDeleteFile: PropTypes.func.isRequired,

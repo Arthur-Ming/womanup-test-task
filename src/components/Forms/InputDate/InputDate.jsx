@@ -1,8 +1,8 @@
-import { Controller } from "react-hook-form";
-import DatePicker from "react-datepicker";
-import styles from "../forms.module.scss";
-import "react-datepicker/dist/react-datepicker.css";
-import PropTypes from "prop-types";
+import { Controller } from 'react-hook-form';
+import DatePicker from 'react-datepicker';
+import styles from '../forms.module.scss';
+import 'react-datepicker/dist/react-datepicker.css';
+import PropTypes from 'prop-types';
 
 const InputDate = ({ name, label, control, timeIntervals, defaultValue }) => (
   <Controller
@@ -30,7 +30,7 @@ const InputDate = ({ name, label, control, timeIntervals, defaultValue }) => (
 );
 
 InputDate.defaultProps = {
-  label: "",
+  label: '',
   defaultValue: null,
   timeIntervals: 30,
 };

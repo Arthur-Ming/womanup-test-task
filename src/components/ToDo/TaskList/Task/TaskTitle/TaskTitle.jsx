@@ -1,6 +1,6 @@
-import styles from "../index.module.scss";
-import InputText from "../../../../Forms/InputText";
-import PropTypes from "prop-types";
+import styles from '../index.module.scss';
+import InputText from '../../../../Forms/InputText';
+import PropTypes from 'prop-types';
 
 const TaskTitle = ({ title, isEditMode, register, error }) => {
   if (isEditMode)

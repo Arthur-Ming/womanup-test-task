@@ -1,14 +1,13 @@
 import {
-  uploadFile,
   addTask,
   getTodos,
   getNewTaskRef,
   deleteTaskById,
   updateTask,
   deleteImage,
-} from "../../utils/api";
-import { Timestamp } from "firebase/firestore";
-import { useCallback, useEffect, useReducer } from "react";
+} from '../../utils/api';
+import { Timestamp } from 'firebase/firestore';
+import { useEffect, useReducer } from 'react';
 import {
   LOAD_TODOS,
   ADD_TODO,
@@ -17,9 +16,8 @@ import {
   REQUEST,
   SUCCESS,
   FAILURE,
-} from "../actions-types";
-import { toast } from "react-toastify";
-import { async } from "@firebase/util";
+} from '../actions-types';
+import { toast } from 'react-toastify';
 
 const initialState = {
   loading: false,
@@ -45,6 +43,7 @@ function reducer(state, action) {
       return {
         ...state,
         loading: false,
+        error: action.error,
       };
     case ADD_TODO:
       return {
@@ -77,7 +76,7 @@ const getNewTask = (data, newTaskId) => ({
 const useTodo = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
   useEffect(() => {
-    async function fn() {
+    async function queryFn() {
       try {
         dispatch({
           type: LOAD_TODOS + REQUEST,
@@ -87,9 +86,14 @@ const useTodo = () => {
           type: LOAD_TODOS + SUCCESS,
           data,
         });
-      } catch (error) {}
+      } catch (error) {
+        dispatch({
+          type: LOAD_TODOS + FAILURE,
+          error,
+        });
+      }
     }
-    fn();
+    queryFn();
   }, []);
   return {
     state,
@@ -102,9 +106,9 @@ const useTodo = () => {
       });
       try {
         await addTask(newTask, newTaskRef);
-        toast.success("task created successfully!");
+        toast.success('task created successfully!');
       } catch (error) {
-        toast.error("failed to create task (:");
+        toast.error('failed to create task (:');
         dispatch({
           type: DELETE_TODO,
           taskId: newTaskRef.id,
@@ -123,10 +127,9 @@ const useTodo = () => {
         });
         try {
           await updateTask(task);
-          toast.success("task updated successfully!");
+          toast.success('task updated successfully!');
         } catch (error) {
-          console.log(error);
-          toast.error("failed to update task (:");
+          toast.error('failed to update task (:');
           dispatch({
             type: UPDATE_TODO,
             updatedTask: oldTask,
@@ -137,7 +140,7 @@ const useTodo = () => {
     deleteTask: async (taskId) => {
       const task = state.entities.find(({ id }) => id === taskId);
       if (!task) return;
-      const [imageURL] = task.files;
+      const [imageId] = task.files;
       dispatch({
         type: DELETE_TODO,
         taskId,
@@ -145,10 +148,10 @@ const useTodo = () => {
 
       try {
         await deleteTaskById(taskId);
-        imageURL && deleteImage(imageURL);
-        toast.success("task deleted successfully!");
+        imageId && deleteImage(imageId);
+        toast.success('task deleted successfully!');
       } catch (error) {
-        toast.error("failed to delete task (:");
+        toast.error('failed to delete task (:');
       }
     },
   };

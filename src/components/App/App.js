@@ -1,10 +1,10 @@
-import ToDoList from "../ToDoList/ToDoList";
-import "react-toastify/dist/ReactToastify.css";
-import { ToastContainer } from "react-toastify";
+import ToDo from '../ToDo';
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from 'react-toastify';
 
 const App = () => (
   <div className="wrapper">
-    <ToDoList />
+    <ToDo />
     <ToastContainer
       position="bottom-right"
       autoClose={2000}

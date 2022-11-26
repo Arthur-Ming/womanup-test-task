@@ -1,15 +1,8 @@
-import classNames from "classnames";
-import styles from "../forms.module.scss";
-import PropTypes from "prop-types";
+import classNames from 'classnames';
+import styles from '../forms.module.scss';
+import PropTypes from 'prop-types';
 
-const Textarea = ({
-  name,
-  label = "",
-  register,
-  error,
-  required,
-  defaultValue = "",
-}) => (
+const Textarea = ({ name, label = '', register, error, required, defaultValue = '' }) => (
   <label className={styles.label}>
     <span>{label}</span>
     <textarea
@@ -24,8 +17,8 @@ const Textarea = ({
 );
 
 Textarea.defaultProps = {
-  label: "",
-  defaultValue: "",
+  label: '',
+  defaultValue: '',
 };
 
 Textarea.propTypes = {

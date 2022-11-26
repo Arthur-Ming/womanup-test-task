@@ -1,15 +1,9 @@
-import styles from "../index.module.scss";
-import ImageUploader from "../../../../Forms/ImageUploader";
-import { getFile } from "../../../../../utils/api";
-import PropTypes from "prop-types";
+import styles from '../index.module.scss';
+import ImageUploader from '../../../../Forms/ImageUploader';
+import { getImageURL } from '../../../../../utils/api';
+import PropTypes from 'prop-types';
 
-const TaskImage = ({
-  isEditMode,
-  register,
-  image,
-  onFileInput,
-  onDeleteFile,
-}) => {
+const TaskImage = ({ isEditMode, register, image, onFileInput, onDeleteFile }) => {
   if (isEditMode) {
     return (
       <ImageUploader
@@ -25,19 +19,19 @@ const TaskImage = ({
 
   return (
     <a
-      href={image.url && getFile(image.url)}
+      href={image.id && getImageURL(image.id)}
       className={styles.image_link}
-      style={{ backgroundImage: `url(${image.url && getFile(image.url)})` }}
+      style={{ backgroundImage: `url(${image.id && getImageURL(image.id)})` }}
       target="_blank"
       onClick={(e) => {
-        !image.url && e.preventDefault();
+        !image.id && e.preventDefault();
       }}
       rel="noreferrer"
     >
-      {image.url && (
-        <img className={styles.image} src={getFile(image.url)} alt="" />
+      {image.id && (
+        <img className={styles.image} src={getImageURL(image.id)} alt="" loading="lazy" />
       )}
-      {!image.url && <span>No image</span>}
+      {!image.id && <span>No image</span>}
     </a>
   );
 };
@@ -50,7 +44,7 @@ TaskImage.propTypes = {
   image: PropTypes.shape({
     loading: PropTypes.bool.isRequired,
     error: PropTypes.object,
-    url: PropTypes.string.isRequired,
+    id: PropTypes.string.isRequired,
   }),
 };
 

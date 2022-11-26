@@ -1,15 +1,8 @@
-import classNames from "classnames";
-import styles from "../forms.module.scss";
-import PropTypes from "prop-types";
+import classNames from 'classnames';
+import styles from '../forms.module.scss';
+import PropTypes from 'prop-types';
 
-const InputText = ({
-  name,
-  register,
-  error,
-  required,
-  label,
-  defaultValue,
-}) => (
+const InputText = ({ name, register, error, required, label, defaultValue }) => (
   <label className={styles.label}>
     <span>{label}</span>
     <input
@@ -25,8 +18,8 @@ const InputText = ({
 );
 
 InputText.defaultProps = {
-  label: "",
-  defaultValue: "",
+  label: '',
+  defaultValue: '',
 };
 
 InputText.propTypes = {

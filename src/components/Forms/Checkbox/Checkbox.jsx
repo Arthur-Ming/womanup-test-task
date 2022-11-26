@@ -1,5 +1,5 @@
-import styles from "../forms.module.scss";
-import PropTypes from "prop-types";
+import styles from '../forms.module.scss';
+import PropTypes from 'prop-types';
 
 const Checkbox = ({ label, checked, onChange }) => (
   <label className={styles.label}>
@@ -9,7 +9,7 @@ const Checkbox = ({ label, checked, onChange }) => (
 );
 
 Checkbox.defaultProps = {
-  label: "",
+  label: '',
   checked: false,
 };
 

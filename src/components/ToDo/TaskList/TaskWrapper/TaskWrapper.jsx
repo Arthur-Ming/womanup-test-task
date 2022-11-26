@@ -1,7 +1,7 @@
-import Modal from "../../../Modal";
-import styles from "./index.module.scss";
-import { IoMdClose as CloseIcon } from "react-icons/io";
-import PropTypes from "prop-types";
+import Modal from '../../../Modal';
+import styles from './index.module.scss';
+import { IoMdClose as CloseIcon } from 'react-icons/io';
+import PropTypes from 'prop-types';
 
 const TaskWrapper = ({ children, onCloseClick }) => (
   <Modal onClickOutside={onCloseClick}>

@@ -1,12 +1,6 @@
-import { useCallback, useReducer } from "react";
-import { deleteImage, uploadFile } from "../../utils/api";
-import { LOAD_FILE, REQUEST, SUCCESS, FAILURE, RESET } from "../actions-types";
-
-const initialState = {
-  loading: false,
-  error: null,
-  url: "",
-};
+import { useReducer } from 'react';
+import { deleteImage, uploadImage } from '../../utils/api';
+import { LOAD_FILE, REQUEST, SUCCESS, FAILURE, RESET } from '../actions-types';
 
 function reducer(state, action) {
   switch (action.type) {
@@ -14,13 +8,13 @@ function reducer(state, action) {
       return {
         ...state,
         loading: true,
-        url: "",
+        id: '',
       };
     case LOAD_FILE + SUCCESS:
       return {
         ...state,
         loading: false,
-        url: action.url,
+        id: action.id,
       };
     case LOAD_FILE + FAILURE:
       return {
@@ -28,15 +22,15 @@ function reducer(state, action) {
         loading: false,
         error: action.error,
       };
-    case "SET_IMAGE":
+    case 'SET_IMAGE':
       return {
         ...state,
-        url: action.imageURL,
+        id: action.imageURL,
       };
     case RESET:
       return {
         loading: false,
-        url: "",
+        id: '',
         error: null,
       };
     default:
@@ -44,25 +38,25 @@ function reducer(state, action) {
   }
 }
 
-const useImageUploader = (imageURL = "") => {
+const useImageUploader = (imageId = '') => {
   const [image, dispatch] = useReducer(reducer, {
     loading: false,
     error: null,
-    url: imageURL,
+    id: imageId,
   });
-  console.log(image.url);
+
   return {
     image,
     onFileInput: async (e) => {
       const [file] = e.target.files;
       if (file) {
         dispatch({ type: LOAD_FILE + REQUEST });
-        const url = await uploadFile(file);
-        dispatch({ type: LOAD_FILE + SUCCESS, url: url.split("%")[1] });
+        const id = await uploadImage(file);
+        dispatch({ type: LOAD_FILE + SUCCESS, id: id.split('%')[1] });
       }
     },
     onDeleteFile: () => {
-      image.url && deleteImage(image.url);
+      image.id && deleteImage(image.id);
       dispatch({ type: RESET });
     },
   };

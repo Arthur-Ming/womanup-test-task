@@ -1,16 +1,10 @@
-import Loader from "../../Loader";
-import PropTypes from "prop-types";
-import TaskLabel from "./TaskLabel";
-import { TaskType } from "../../../types";
-import styles from "./index.module.scss";
+import Loader from '../../Loader';
+import PropTypes from 'prop-types';
+import TaskLabel from './TaskLabel';
+import { TaskType } from '../../../types';
+import styles from './index.module.scss';
 
-const TaskList = ({
-  tasks,
-  tasksLoading,
-  setSeletedTaskId,
-  deleteTask,
-  updateTask,
-}) => {
+const TaskList = ({ tasks, tasksLoading, setSeletedTaskId, deleteTask, updateTask }) => {
   if (tasksLoading) return <Loader />;
   return (
     <ul className={styles.list}>

@@ -1,6 +1,6 @@
-import Modal from "../Modal";
-import styles from "./index.module.scss";
-import PropTypes from "prop-types";
+import Modal from '../Modal';
+import styles from './index.module.scss';
+import PropTypes from 'prop-types';
 
 const ConfirmPopup = ({ message, onDidConfirm, onDidNotConfirm }) => (
   <Modal>
