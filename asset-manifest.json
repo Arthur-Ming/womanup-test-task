@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/womanup-test-task/static/css/main.6ae18534.css",
-    "main.js": "/womanup-test-task/static/js/main.26634acf.js",
+    "main.js": "/womanup-test-task/static/js/main.ac5d0fe3.js",
     "index.html": "/womanup-test-task/index.html",
     "main.6ae18534.css.map": "/womanup-test-task/static/css/main.6ae18534.css.map",
-    "main.26634acf.js.map": "/womanup-test-task/static/js/main.26634acf.js.map"
+    "main.ac5d0fe3.js.map": "/womanup-test-task/static/js/main.ac5d0fe3.js.map"
   },
   "entrypoints": [
     "static/css/main.6ae18534.css",
-    "static/js/main.26634acf.js"
+    "static/js/main.ac5d0fe3.js"
   ]
 }
