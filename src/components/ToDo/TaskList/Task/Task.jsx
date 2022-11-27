@@ -44,7 +44,9 @@ const Task = ({ task, updateTask }) => {
     <form className={styles.item}>
       <TaskTitle title={title} isEditMode={isEditMode} register={register} error={errors.title} />
       <TaskDescription description={description} isEditMode={isEditMode} register={register} />
-      <TaskDeadline deadline={deadline} isEditMode={isEditMode} control={control} />
+      <div className={styles.date_wrapper}>
+        <TaskDeadline deadline={deadline} isEditMode={isEditMode} control={control} />
+      </div>
       <TaskImage
         register={register}
         isEditMode={isEditMode}

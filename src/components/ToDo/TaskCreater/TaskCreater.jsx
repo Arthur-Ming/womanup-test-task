@@ -35,7 +35,10 @@ const TaskCreater = ({ createTask }) => {
         required="this field is required!"
       />
       <Textarea name="description" label="Description" register={register} />
-      <InputDate name="deadline" label="Deadline" control={control} />
+      <div className={styles.date_wrapper}>
+        <InputDate name="deadline" label="Deadline" control={control} />
+      </div>
+
       <ImageUploader
         name="image"
         label="Select file"
