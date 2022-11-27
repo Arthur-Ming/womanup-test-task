@@ -10,3 +10,4 @@ export const SUCCESS = '_SUCCESS';
 export const FAILURE = '_FAILURE';
 
 export const RESET = 'RESET';
+export const SET_IMAGE = 'SET_IMAGE';

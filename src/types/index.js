@@ -4,7 +4,7 @@ export const TaskType = PropTypes.shape({
   id: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   description: PropTypes.string,
-  files: PropTypes.arrayOf(PropTypes.string),
+  image: PropTypes.string.isRequired,
   isDone: PropTypes.bool,
   deadline: PropTypes.number,
   createdAt: PropTypes.shape({

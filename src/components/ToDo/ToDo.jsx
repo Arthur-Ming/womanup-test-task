@@ -6,7 +6,7 @@ import styles from './index.module.scss';
 import useTodo from '../../hooks/useToDo';
 import { useState } from 'react';
 
-const ToDoList = () => {
+const ToDo = () => {
   const { createTask, deleteTask, updateTask, state } = useTodo();
   const [selectedTaskId, setSelectedTaskId] = useState(null);
   const selectedTask = selectedTaskId && state.entities.find(({ id }) => id === selectedTaskId);
@@ -35,4 +35,4 @@ const ToDoList = () => {
   );
 };
 
-export default ToDoList;
+export default ToDo;

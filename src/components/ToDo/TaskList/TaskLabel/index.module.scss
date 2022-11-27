@@ -1,4 +1,4 @@
-@import "/src/index.scss";
+@import '/src/index.scss';
 .label {
   width: 680px;
   background-color: $bg-primary-dark;
@@ -61,4 +61,12 @@
 
 .ch_box {
   padding: 0px 10px 5px;
+}
+
+.dead {
+  outline: 1px solid $fail;
+}
+
+.done {
+  outline: 1px solid $success;
 }

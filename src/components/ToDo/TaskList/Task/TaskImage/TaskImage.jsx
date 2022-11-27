@@ -3,35 +3,32 @@ import ImageUploader from '../../../../Forms/ImageUploader';
 import { getImageURL } from '../../../../../utils/api';
 import PropTypes from 'prop-types';
 
-const TaskImage = ({ isEditMode, register, image, onFileInput, onDeleteFile }) => {
+const TaskImage = ({ isEditMode, register, imageState, imageId, onFileInput, onDeleteFile }) => {
   if (isEditMode) {
     return (
       <ImageUploader
-        name="files"
+        name="image"
         label="Select file"
         register={register}
         onFileInput={onFileInput}
         onDeleteFile={onDeleteFile}
-        image={image}
+        imageState={imageState}
       />
     );
   }
 
   return (
     <a
-      href={image.id && getImageURL(image.id)}
+      href={imageId && getImageURL(imageId)}
       className={styles.image_link}
-      style={{ backgroundImage: `url(${image.id && getImageURL(image.id)})` }}
+      style={{ backgroundImage: `url(${imageId && getImageURL(imageId)})` }}
       target="_blank"
       onClick={(e) => {
-        !image.id && e.preventDefault();
+        !imageId && e.preventDefault();
       }}
       rel="noreferrer"
     >
-      {image.id && (
-        <img className={styles.image} src={getImageURL(image.id)} alt="" loading="lazy" />
-      )}
-      {!image.id && <span>No image</span>}
+      {!imageId && <span>No image</span>}
     </a>
   );
 };
@@ -41,7 +38,7 @@ TaskImage.propTypes = {
   register: PropTypes.func.isRequired,
   onFileInput: PropTypes.func.isRequired,
   onDeleteFile: PropTypes.func.isRequired,
-  image: PropTypes.shape({
+  imageState: PropTypes.shape({
     loading: PropTypes.bool.isRequired,
     error: PropTypes.object,
     id: PropTypes.string.isRequired,

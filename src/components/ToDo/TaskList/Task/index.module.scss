@@ -1,4 +1,4 @@
-@import "/src/index.scss";
+@import '/src/index.scss';
 
 .item {
   display: flex;
@@ -88,10 +88,4 @@
   height: 114px;
   overflow: hidden;
   color: $text-primary-light;
-}
-.image {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
 }

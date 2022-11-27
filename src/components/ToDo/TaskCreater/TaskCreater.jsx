@@ -15,13 +15,14 @@ const TaskCreater = ({ createTask }) => {
     formState: { errors },
     reset,
   } = useForm({ mode: 'onBlur' });
-  const { image, onFileInput, onDeleteFile } = useImageUploader();
+  const { imageState, onFileInput, onDeleteFile, onResetFile } = useImageUploader();
   const onSubmit = (data) => {
     createTask({
       ...data,
-      files: image.id ? [image.id] : [],
+      image: imageState.id,
     });
     reset();
+    onResetFile();
   };
 
   return (
@@ -36,12 +37,12 @@ const TaskCreater = ({ createTask }) => {
       <Textarea name="description" label="Description" register={register} />
       <InputDate name="deadline" label="Deadline" control={control} />
       <ImageUploader
-        name="files"
+        name="image"
         label="Select file"
         register={register}
         onFileInput={onFileInput}
         onDeleteFile={onDeleteFile}
-        image={image}
+        imageState={imageState}
       />
       <div className={styles.buttons}>
         <input
@@ -51,15 +52,15 @@ const TaskCreater = ({ createTask }) => {
             onDeleteFile();
             reset();
           }}
-          disabled={image.loading}
+          disabled={imageState.loading}
           className={styles.button}
         />
         <input
           type="submit"
           onClick={handleSubmit(onSubmit)}
           className={styles.button}
-          value="Add task"
-          disabled={image.loading}
+          value="add task"
+          disabled={imageState.loading}
         />
       </div>
     </form>

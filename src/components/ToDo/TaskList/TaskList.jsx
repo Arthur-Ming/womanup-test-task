@@ -6,16 +6,14 @@ import styles from './index.module.scss';
 
 const TaskList = ({ tasks, tasksLoading, setSeletedTaskId, deleteTask, updateTask }) => {
   if (tasksLoading) return <Loader />;
+  if (!tasks.length) return <p className={styles.no_task}>There is no one task</p>;
   return (
     <ul className={styles.list}>
-      {tasks.map(({ id, title, deadline, isDone }) => (
+      {tasks.map((task) => (
         <TaskLabel
-          key={id}
-          title={title}
-          deadline={deadline}
-          id={id}
+          key={task.id}
+          task={task}
           setSeletedTaskId={setSeletedTaskId}
-          isDone={isDone}
           deleteTask={deleteTask}
           updateTask={updateTask}
         />

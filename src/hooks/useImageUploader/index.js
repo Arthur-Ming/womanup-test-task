@@ -1,14 +1,21 @@
 import { useReducer } from 'react';
 import { deleteImage, uploadImage } from '../../utils/api';
-import { LOAD_FILE, REQUEST, SUCCESS, FAILURE, RESET } from '../actions-types';
+import { LOAD_FILE, REQUEST, SUCCESS, FAILURE, RESET, SET_IMAGE } from '../action-types';
+import { toast } from 'react-toastify';
+
+const initialState = {
+  loading: false,
+  error: null,
+  id: '',
+};
 
 function reducer(state, action) {
   switch (action.type) {
     case LOAD_FILE + REQUEST:
       return {
-        ...state,
         loading: true,
         id: '',
+        error: null,
       };
     case LOAD_FILE + SUCCESS:
       return {
@@ -22,10 +29,10 @@ function reducer(state, action) {
         loading: false,
         error: action.error,
       };
-    case 'SET_IMAGE':
+    case SET_IMAGE:
       return {
         ...state,
-        id: action.imageURL,
+        id: action.imageId,
       };
     case RESET:
       return {
@@ -38,26 +45,35 @@ function reducer(state, action) {
   }
 }
 
-const useImageUploader = (imageId = '') => {
-  const [image, dispatch] = useReducer(reducer, {
-    loading: false,
-    error: null,
-    id: imageId,
-  });
+const useImageUploader = () => {
+  const [imageState, dispatch] = useReducer(reducer, initialState);
 
   return {
-    image,
+    imageState,
     onFileInput: async (e) => {
       const [file] = e.target.files;
       if (file) {
         dispatch({ type: LOAD_FILE + REQUEST });
-        const id = await uploadImage(file);
-        dispatch({ type: LOAD_FILE + SUCCESS, id: id.split('%')[1] });
+
+        try {
+          const id = await uploadImage(file);
+          toast.success('image uploaded successfully!');
+          dispatch({ type: LOAD_FILE + SUCCESS, id: id.split('%')[1] });
+        } catch (error) {
+          toast.error('failed to upload image(:');
+          dispatch({ type: LOAD_FILE + FAILURE, error });
+        }
       }
     },
     onDeleteFile: () => {
-      image.id && deleteImage(image.id);
+      imageState.id && deleteImage(imageState.id);
       dispatch({ type: RESET });
+    },
+    onResetFile: () => {
+      dispatch({ type: RESET });
+    },
+    setImage: (imageId) => {
+      dispatch({ type: SET_IMAGE, imageId });
     },
   };
 };

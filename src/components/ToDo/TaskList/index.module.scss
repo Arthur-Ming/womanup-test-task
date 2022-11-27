@@ -1,8 +1,12 @@
-@import "/src/index.scss";
+@import '/src/index.scss';
 
 .list {
-  padding: 0px;
+  padding: 0px 0px 40px 0px;
   display: flex;
   flex-direction: column;
   row-gap: 20px;
+}
+.no_task {
+  text-align: center;
+  padding: 40px 0px;
 }

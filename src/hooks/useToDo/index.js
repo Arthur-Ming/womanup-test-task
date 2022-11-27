@@ -1,3 +1,4 @@
+import { useEffect, useReducer } from 'react';
 import {
   addTask,
   getTodos,
@@ -6,8 +7,6 @@ import {
   updateTask,
   deleteImage,
 } from '../../utils/api';
-import { Timestamp } from 'firebase/firestore';
-import { useEffect, useReducer } from 'react';
 import {
   LOAD_TODOS,
   ADD_TODO,
@@ -16,13 +15,12 @@ import {
   REQUEST,
   SUCCESS,
   FAILURE,
-} from '../actions-types';
+} from '../action-types';
 import { toast } from 'react-toastify';
 
 const initialState = {
   loading: false,
   error: null,
-  updating: {},
   entities: [],
 };
 
@@ -32,6 +30,7 @@ function reducer(state, action) {
       return {
         ...state,
         loading: true,
+        error: null,
       };
     case LOAD_TODOS + SUCCESS:
       return {
@@ -69,7 +68,6 @@ function reducer(state, action) {
 const getNewTask = (data, newTaskId) => ({
   ...data,
   id: newTaskId,
-  createdAt: Timestamp.fromDate(new Date()),
   isDone: false,
 });
 
@@ -81,7 +79,11 @@ const useTodo = () => {
         dispatch({
           type: LOAD_TODOS + REQUEST,
         });
-        const data = await getTodos();
+        const rawData = await getTodos();
+        const data = rawData.docs.map((doc) => ({
+          ...doc.data(),
+          id: doc.id,
+        }));
         dispatch({
           type: LOAD_TODOS + SUCCESS,
           data,
@@ -115,32 +117,36 @@ const useTodo = () => {
         });
       }
     },
-    updateTask: async (task) => {
-      const oldTask = state.entities.find((item) => item.id === task.id);
-      if (oldTask) {
+    updateTask: async (updatedTask) => {
+      const oldTask = state.entities.find((item) => item.id === updatedTask.id);
+
+      if (!oldTask) return;
+
+      dispatch({
+        type: UPDATE_TODO,
+        updatedTask,
+      });
+
+      if (oldTask.image && !updatedTask.image) {
+        deleteImage(oldTask.image);
+      }
+      try {
+        await updateTask(updatedTask);
+        toast.success('task updated successfully!');
+      } catch (error) {
+        toast.error('failed to update task (:');
         dispatch({
           type: UPDATE_TODO,
-          updatedTask: {
-            ...oldTask,
-            ...task,
-          },
+          updatedTask: oldTask,
         });
-        try {
-          await updateTask(task);
-          toast.success('task updated successfully!');
-        } catch (error) {
-          toast.error('failed to update task (:');
-          dispatch({
-            type: UPDATE_TODO,
-            updatedTask: oldTask,
-          });
-        }
       }
     },
     deleteTask: async (taskId) => {
       const task = state.entities.find(({ id }) => id === taskId);
+
       if (!task) return;
-      const [imageId] = task.files;
+
+      const imageId = task.image;
       dispatch({
         type: DELETE_TODO,
         taskId,

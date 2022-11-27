@@ -18,26 +18,27 @@ const Task = ({ task, updateTask }) => {
     formState: { errors },
   } = useForm({ mode: 'onBlur' });
 
-  const imageId = (task && task.files && task.files[0]) || '';
-
-  const { image, onFileInput, onDeleteFile } = useImageUploader(imageId);
+  const { imageState, onFileInput, onResetFile, setImage } = useImageUploader();
 
   const editModeSwitch = (e) => {
     e.preventDefault();
-    setEditMode((prevMode) => !prevMode);
+    setEditMode((prevEditMode) => {
+      if (!prevEditMode) setImage(task.image);
+      return !prevEditMode;
+    });
   };
 
   const onSubmit = (data) => {
     updateTask({
       ...data,
       id: task.id,
-      files: image.id ? [image.id] : [],
+      image: imageState.id,
     });
     setEditMode(false);
   };
   if (!task) return <div>task not found</div>;
 
-  const { title, description, deadline } = task;
+  const { title, description, deadline, image: imageId } = task;
 
   return (
     <form className={styles.item}>
@@ -47,12 +48,13 @@ const Task = ({ task, updateTask }) => {
       <TaskImage
         register={register}
         isEditMode={isEditMode}
-        image={image}
+        imageState={imageState}
+        imageId={imageId}
         onFileInput={onFileInput}
-        onDeleteFile={onDeleteFile}
+        onDeleteFile={onResetFile}
       />
       <div className={styles.buttons}>
-        <button className={styles.button} onClick={editModeSwitch} disabled={image.loading}>
+        <button className={styles.button} onClick={editModeSwitch} disabled={imageState.loading}>
           {isEditMode ? 'Cancel' : 'Edit'}
         </button>
         <input
@@ -60,7 +62,7 @@ const Task = ({ task, updateTask }) => {
           onClick={handleSubmit(onSubmit)}
           className={styles.button}
           value="Submit"
-          disabled={!isEditMode || image.loading}
+          disabled={!isEditMode || imageState.loading}
         />
       </div>
     </form>
