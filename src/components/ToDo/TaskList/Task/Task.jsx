@@ -18,12 +18,13 @@ const Task = ({ task, updateTask }) => {
     formState: { errors },
   } = useForm({ mode: 'onBlur' });
 
-  const { imageState, onFileInput, onResetFile, setImage } = useImageUploader();
+  const { imageState, onFileInput, onResetFile, setImage, onDeleteFile } = useImageUploader();
 
   const editModeSwitch = (e) => {
     e.preventDefault();
     setEditMode((prevEditMode) => {
       if (!prevEditMode) setImage(task.image);
+      if (prevEditMode && !task.image) onDeleteFile();
       return !prevEditMode;
     });
   };
